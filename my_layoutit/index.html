@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ 	 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title> drag</title>
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style-metro.css">
+	<style type="text/css">
+	 	.box {
+			border: solid 1px #cccccc;
+			height: 100%;
+			min-height: 720px;
+		}
+
+		.content {
+			padding-top: 60px;
+		}
+
+		.leftBox {
+			position: relative;
+			left: 1px;
+			top : 1px;
+			padding: 1px;
+			padding-right: 10px;
+		}
+
+		.navbar button {
+			margin-top: 5px;
+		}
+
+		.buttonBar {
+			margin-left: 10px;
+		}
+
+		.dropdownBox {
+			margin-right: 10px;
+		}
+
+		#drawPane ,.panel-body{
+			padding: 0px;
+			position: ;
+			margin: 0px;
+		}
+
+		.view {
+			display: none;  
+		}
+	  
+	</style>
+
+</head>
+<body >
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+	    <div class="btn-group"  >
+	      <button class="btn blue">
+	      	编辑
+	      </button> 
+	      <button class="btn blue">
+	      	布局编辑
+	      </button>
+	       <button class="btn blue">
+	      	预览
+	      </button>
+	      </div>
+     </div>
+     <div class="navbar-left buttonBar">
+     	<div class="btn-group"  >
+     			<button class="btn blue">
+		      	撤销
+		      </button>
+		      <button class="btn blue">
+		      	恢复
+		      </button>
+     	</div>
+     </div>
+     <div class="navbar-left buttonBar">
+     	<div class="btn-group"  >
+     			<button class="btn blue">
+		      	下载
+		      </button>
+		      <button class="btn blue">
+		      	保存
+		      </button>
+
+		      <button class="btn blue">
+		      	清空
+		      </button>
+     	</div>
+     </div>
+      <div class="navbar-right">
+	   <div class="btn-group">
+  <button class="btn blue btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    绝对定位 <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+     <li><a href="#">绝对定位</a></li>
+     <li><a href="#">流式布局</a></li>
+     <li><a href="#">边框布局</a></li>
+  </ul>
+</div>
+      </div>
+  </div>
+</nav>
+<div class="container-fluid content">
+	<div class="row">
+		<div class="col-md-3 leftBox">
+			 
+		 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          布局控件
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+       111
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          数据控件
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+        222
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingThree">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          基础控件
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+      <div class="panel-body">
+        <ul class="list-group">
+		  <li class="list-group-item"   >
+		  	<img src="imgs/bg_1.png" width="28" height="33"> 控件1
+		  	<div class="view">
+		  		这是一个控件1，我牛逼
+		  	</div>
+		  </li>
+		  <li class="list-group-item"   >
+		  <img src="imgs/bg_2.png" width="28" height="33"> 控件2</li>
+		  <li class="list-group-item"   >
+		  <img src="imgs/bg_1.png" width="28" height="33"> 控件3</li>
+		</ul>
+      </div>
+    </div>
+  </div>
+</div>
+		</div>
+		 
+		<div class="col-md-9 box" id="drawPane">
+			  
+		</div>
+	</div>
+</div>
+<div id="dragId"></div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+		function abstractLayout(){
+			$("#drawPane").html("");
+		}
+
+		function flowLayout(){
+			$("#drawPane").html("");
+		}
+
+		function borderLayout(){
+			$("#drawPane").html("<table border='1' width='100%' height='100%'><tr><td id='headContainer'>&nbsp;</td></tr></table>");
+		}
+
+		function initDragComponet(node){
+			$(node).bind("mousemove",function(ev){
+					console.log(ev.pageX +" , " + ev.pageY + "  -- " +node);
+					this.style.left =(ev.pageX - 10)+ "px" ;
+					this.style.top = (ev.pageY - 10) + "px";
+			});
+			$(node).bind("mouseup",function(ev){
+					if(drawPaneContains(ev)){
+						addToDrawPane(this);
+					}else{
+						document.getElementById("dragId").removeChild(this);
+					}
+				    console.log(ev);
+				    $(this).unbind();
+			});
+			 
+		}
+
+		function drawPaneContains(ev){
+			var obj = document.getElementById("drawPane");
+			var x = ev.pageX;
+			var y = ev.pageY;
+			return (x> obj.offsetLeft &&x < (obj.offsetLeft+obj.clientWidth)  && y> obj.offsetTop  && y <(obj.offsetTop+obj.clientHeight));
+		}
+
+		function addToDrawPane(node){
+			node.style.position = "relative";
+			node.style.left ="0px";
+			node.style.top = "0px";
+			document.getElementById("drawPane").appendChild(node);
+		}
+
+		$(document).ready(function(){
+			 
+			$("#collapseThree li").mousedown(function(e){
+				flag = true;
+				var node = this.cloneNode(true);
+				node.style.position ="absolute";
+				node.style.left = (e.pageX - 10)+ "px";
+				node.style.top = (e.pageY -10)+ "px";
+				node.style.zIndex = 100;
+				node.id ="drgeId";
+
+				node.style.left = e.pageX ;
+				node.style.top = e.pageY ;
+
+				initDragComponet(node);
+				document.getElementById("dragId").appendChild(node);
+		
+			});
+		 
+		});
+	</script>
+</body>
+</html>
