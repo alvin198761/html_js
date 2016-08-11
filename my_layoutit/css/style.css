@@ -1,0 +1,43 @@
+.box {
+			border: solid 1px #cccccc ;
+			height: 100%;
+			min-height: 720px;
+		}
+
+		.content {
+			padding-top: 60px;
+
+		}
+
+		.leftBox { 
+			position: relative;
+			left: 1px;
+			top : 1px;
+			padding: 1px;
+			padding-right: 10px;
+
+		}
+
+		.navbar button {
+			margin-top: 5px;
+		}
+
+		.buttonBar {
+			margin-left: 10px;
+		}
+
+		.dropdownBox {
+			margin-right: 10px;
+		}
+
+		#drawPane ,.panel-body{
+			padding: 0px;
+			 
+			margin: 0px;
+
+		}
+
+		.view {
+			display: none;  
+
+		}
