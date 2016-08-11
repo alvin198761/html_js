@@ -83,8 +83,8 @@ app.controller("naveBarController",function($scope,$rootScope){
 
 		$(document).ready(function(){
 			//实现拖拽功能
-			$("#collapseThree li").mousedown(function(e){
-				flag = true;
+			$("#collapseOne li").mousedown(function(e){
+				 
 				var node = this.cloneNode(true);
 				node.style.position ="absolute";
 				node.style.left = (e.pageX - 10)+ "px";
@@ -116,8 +116,11 @@ app.controller("naveBarController",function($scope,$rootScope){
 			//绑定鼠标事件
 		$(node).bind("mousemove",function(ev){
 				//console.log(ev.pageX +" , " + ev.pageY + "  -- " +node);
-				this.style.left =(ev.pageX - 10)+ "px" ;
-				this.style.top = (ev.pageY - 10) + "px";
+				$(this).css("left", (ev.pageX - 10)+ "px");
+				$(this).css("top", (ev.pageY -10)+ "px");
+
+				//this.style.left =(ev.pageX - 10)+ "px" ;
+				//this.style.top = (ev.pageY - 10) + "px";
 				var parentTag = $rootScope.layout.contains(ev.pageX,ev.pageY);
 				if(parentTag!= null){
 					 $rootScope.layout.avtiveContainer(parentTag,true);
@@ -132,7 +135,7 @@ app.controller("naveBarController",function($scope,$rootScope){
 				if(parentTag!= null){
 					$scope.addToDrawPane(parentTag,this);
 				}else{
-					$("#dragId").remove(this);
+					$(this).remove();
 				}
 				//不管是结局如何，都要移除鼠标事件
 			    $(this).unbind();
@@ -141,21 +144,57 @@ app.controller("naveBarController",function($scope,$rootScope){
 	};
 
 	$scope.addToDrawPane = function(parentTag,node){
-		//$("#dragId").remove(node);
-		//$(node).css("position","static");
-		node.style.position = "static";
-		node.style.left ="0px";
-		node.style.top = "0px";
-
+		$(node).css("position",  "static");
+		$(node).css("left",  "0px");
+		$(node).css("top",  "0px");
 		$(parentTag).append(node);
 		$rootScope.layout.avtiveContainer(parentTag,false);
+
+		$scope.initTargetDrag(node);
+	};
+	//拖到目标面板以后鼠标拖拽事件
+	$scope.initTargetDrag = function (obj){
+		$(obj).on("mousedown","",function(ev){
+				console.log(this);
+				$(this).css("position", "absolute");
+				$(this).css("left", (ev.pageX - 100)+ "px");
+				$(this).css("top", (ev.pageY -100)+ "px");
+				$(this).css("zIndex", 100);
+				//$scope.initTargatComponet(this);
+		});	
+		
+	};
+	//
+	$scope.initTargatComponet = function(obj){
+		$(document).on("mousemove",$(obj),function(ev){
+			//console.log(ev.pageX +" , " + ev.pageY + "  -- " +node);
+			$(this).css("left", (ev.pageX - 10)+ "px");
+			$(this).css("top", (ev.pageY -10)+ "px");
+
+			//this.style.left =(ev.pageX - 10)+ "px" ;
+			//this.style.top = (ev.pageY - 10) + "px";
+			var parentTag = $rootScope.layout.contains(ev.pageX,ev.pageY);
+			if(parentTag!= null){
+				 $rootScope.layout.avtiveContainer(parentTag,true);
+			}else{
+				$rootScope.layout.avtiveContainer(null,false);
+			}
+		}); 
+		$(document).on("mouseup",$(obj),function(ev){
+				var parentTag = $rootScope.layout.contains(ev.pageX,ev.pageY);
+				if(parentTag!= null){
+					$scope.addToDrawPane(parentTag,this);
+				}else{
+					$(this).remove();
+				}
+				//不管是结局如何，都要移除鼠标事件
+			    $(this).unbind();
+		});
 	};
 
 
 	//初始化
 	$scope.init();
- 	
-
 });
 
 
