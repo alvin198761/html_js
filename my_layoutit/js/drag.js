@@ -1,83 +1,16 @@
 var app = angular.module('app', []);
+//
+app.controller("navBarController",function($scope,$rootScope){
+	$scope.layoutClean = function(){
+		$rootScope.layout.clean();
+	} ;
+});
 //控件列表面板数据
-app.controller("naveBarController",function($scope,$rootScope){
-	$scope.layouts = [
-		{
-			title:"简单边框布局(上左中下)",
-			icon :"glyphicon glyphicon-film",
-			data : "",
-			typeName:"simpleBorderLayout"
-
-		},
-		{
-			title:"边框布局(上左中右下)",
-			icon :"glyphicon glyphicon-film",
-			data : "",
-			typeName :"borderLayout"
-
-		},
-		{
-			title:"水平布局",
-			icon :"glyphicon glyphicon-film",
-			data : "",
-			typeName :"horizontal"
-
-		},
-		{
-			title:"垂直布局",
-			icon :"glyphicon glyphicon-film",
-			data : "",
-			typeName :"vertical"
-
-		},
-		{
-			title:"流式布局",
-			icon :"glyphicon glyphicon-film",
-			data : "",
-			typeName:"flowLayout"
-
-		},
-		{
-			title:"绝对定位",
-			icon :"glyphicon glyphicon-film",
-			data : "",
-			typeName:"abstractLayout"
-
-		},
-	];
-
-	$scope.dataComponents = [
-		{
-			title:"列表控件",
-			icon :"glyphicon glyphicon-th",
-			data  :""
-
-		},{
-			title:"表格控件",
-			icon :"glyphicon glyphicon-th",
-			data  :""
-		},{
-			title:"树控件",
-			icon :"glyphicon glyphicon-th",
-			data  :""
-		}
-	];
-	$scope.basicComponents =[
-		{
-			title:"导航条",
-			icon :"glyphicon glyphicon-credit-card",
-			data  :""
-
-		},{
-			title:"Tab页",
-			icon :"glyphicon glyphicon-credit-card",
-			data  :""
-		},{
-			title:"页面",
-			icon :"glyphicon glyphicon-credit-card",
-			data  :""
-		}
-	];
+app.controller("siteBarController",function($scope,$rootScope){
+	 
+ 	$scope.layouts = eval($.get({url:"js/data/layout.json",async:false}).responseText) ;
+	$scope.dataComponents= [];//eval ($.get({url:"js/data/components.json",async:false}).responseText);
+	$scope.basicComponents = eval($.get({url:"js/data/basiccomp.json",async:false}).responseText);
 
 	$scope.init = function(){
 
@@ -131,9 +64,10 @@ app.controller("naveBarController",function($scope,$rootScope){
 		
 		$(node).bind("mouseup",function(ev){
 				//如果进入了操作面板，松开鼠标，就会加入到操作面板中
-				var parentTag = $rootScope.layout.contains(ev.pageX,ev.pageY);
+				var parentTag =$rootScope.layout.contains(ev.pageX,ev.pageY);
 				if(parentTag!= null){
-					$scope.addToDrawPane(parentTag,this);
+					$rootScope.layout.add(parentTag,this);
+					$scope.initTargetDrag(node);
 				}else{
 					$(this).remove();
 				}
@@ -143,24 +77,16 @@ app.controller("naveBarController",function($scope,$rootScope){
 		 
 	};
 
-	$scope.addToDrawPane = function(parentTag,node){
-		$(node).css("position",  "static");
-		$(node).css("left",  "0px");
-		$(node).css("top",  "0px");
-		$(parentTag).append(node);
-		$rootScope.layout.avtiveContainer(parentTag,false);
-
-		$scope.initTargetDrag(node);
-	};
+	
 	//拖到目标面板以后鼠标拖拽事件
 	$scope.initTargetDrag = function (obj){
 		$(obj).on("mousedown","",function(ev){
-				console.log(this);
+				//console.log(this);
 				$(this).css("position", "absolute");
 				$(this).css("left", (ev.pageX - 100)+ "px");
 				$(this).css("top", (ev.pageY -100)+ "px");
 				$(this).css("zIndex", 100);
-				//$scope.initTargatComponet(this);
+				$scope.initTargatComponet(this);
 		});	
 		
 	};
@@ -192,6 +118,38 @@ app.controller("naveBarController",function($scope,$rootScope){
 		});
 	};
 
+	$scope.changeLayout = function(layoutObj){
+		if(layoutObj.typeName == $rootScope.typeName){
+			return ;
+		}
+		var childNodes = $rootScope.layout.children;
+		var node = document.getElementById("drawPane");
+		if(layoutObj.typeName == "simpleLayout"){
+			$rootScope.layout = new SimpleBorderLayoutManager(node);
+			return ;
+		}
+		if(layoutObj.typeName =="borderLayout"){
+			$rootScope.layout = new BorderLayout(node);
+			return  ;
+		}
+		if(layoutObj.typeName =="gridLayout"){
+			$rootScope.layout = new GridLayout(node,2,2);
+			return ;
+		}
+		if(layoutObj.typeName =="vertical"){
+			$rootScope.layout = new VericalBoxLayout(node);
+			return ;
+		}
+		if (layoutObj.typeName=="horizontal") {
+			$rootScope.layout = new HorizontalBoxLayout(node);
+			return ;
+		}
+		if(layoutObj.typeName=="flowLayout"){
+			$rootScope.layout = new FlowLayout(node);
+			return ;
+		}
+		alert("该布局还没有实现");
+	};
 
 	//初始化
 	$scope.init();
@@ -200,8 +158,13 @@ app.controller("naveBarController",function($scope,$rootScope){
 
 //操作面板功能
 app.controller("drawPaneController" ,function($scope,$rootScope){
-	 var node = document.getElementById("drawPane");
-	 $rootScope.layout = new SimpleBorderLayoutManager(node); //默认布局
+	var node = document.getElementById("drawPane");
+	$rootScope.layout = new SimpleBorderLayoutManager(node); //默认布局
+	//$rootScope.layout = new BorderLayout(node); //默认布局
+	//$rootScope.layout = new GridLayout(node,3,2); //默认布局
+	//$rootScope.layout = new VericalBoxLayout(node); //默认布局
+	//$rootScope.layout = new HorizontalBoxLayout(node); //默认布局
+	//$rootScope.layout = new FlowLayout(node); //默认布局
 
 });
  

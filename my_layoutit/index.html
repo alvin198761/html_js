@@ -3,7 +3,7 @@
 <head>
  	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
  	 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>js 拖拽布局</title>
+	<title>js layoutit --angularjs</title>
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" media="screen">
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" type="text/css" href="css/style-metro.css">
@@ -12,42 +12,42 @@
 <body ng-app="app">
 
 
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top" ng-controller="navBarController">
   <div class="container-fluid">
     <div class="navbar-header">
 	    <div class="btn-group"  >
-	      <button class="btn blue" id="editBtn">
-	      	编辑
+	      <button class="btn blue" id="editBtn" >
+	      	Edit
 	      </button> 
 	      <button class="btn blue" id="editLayoutBtn">
-	      	布局编辑
+	      	Layout Edit
 	      </button>
 	       <button class="btn blue">
-	      	预览
+	        Preview
 	      </button>
 	      </div>
      </div>
      <div class="navbar-left buttonBar">
      	<div class="btn-group"  >
      			<button class="btn blue">
-		      	撤销
+		       Undo
 		      </button>
 		      <button class="btn blue">
-		      	恢复
+		      	Redo
 		      </button>
      	</div>
      </div>
      <div class="navbar-left buttonBar">
      	<div class="btn-group"  >
      			<button class="btn blue">
-		      	下载
+		      	Downlaod
 		      </button>
 		      <button class="btn blue">
-		      	保存
+		      	Save
 		      </button>
 
-		      <button class="btn blue">
-		      	清空
+		      <button class="btn blue" ng-click="layoutClean()">
+		      	Clean
 		      </button>
      	</div>
      </div>
@@ -55,12 +55,12 @@
       <div class="navbar-right">
 	   <div class="btn-group">
   <button class="btn blue btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    绝对定位 <span class="caret"></span>
+    Layout <span class="caret"></span>
   </button>
   <ul class="dropdown-menu">
-     <li><a href="#">绝对定位</a></li>
-     <li><a href="#">流式布局</a></li>
-     <li><a href="#">边框布局</a></li>
+     <li><a href="#">Layout1</a></li>
+     <li><a href="#">Layout2</a></li>
+     <li><a href="#">Layout3</a></li>
   </ul>
 </div> -->
       </div>
@@ -70,14 +70,13 @@
 
 <div class="container-fluid content">
 	<div class="row">
-		<div class="col-md-3 leftBox" id="leftBar" ng-controller="naveBarController">
-			 
-		 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+		<div class="col-md-3 leftBox" id="leftBar" ng-controller="siteBarController">
+		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
       <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingOne">
           <h4 class="panel-title">
             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-              基础控件
+              Components
             </a>
           </h4>
         </div>
@@ -92,11 +91,11 @@
           </div>
         </div>
       </div>
-      <div class="panel panel-default">
+   <!--   <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingTwo">
           <h4 class="panel-title">
             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-              数据控件
+              Data Components
             </a>
           </h4>
         </div>
@@ -110,21 +109,22 @@
           </div>
         </div>
       </div>
+      -->
     <div class="panel panel-default">
       <div class="panel-heading" role="tab" id="headingThree">
         <h4 class="panel-title">
           <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-             布局控件
+             Layout
           </a>
         </h4>
       </div>
       <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
         <div class="panel-body">
-           <ul class="list-group"  >
-         	<li class="list-group-item" ng-repeat="layout in layouts">
-                <i class="{{layout.icon}}"></i>&nbsp;{{layout.title}}
-              </li>
-         	</ul>
+           <div class="list-group"  >
+         	<a class="list-group-item {{l.typeName == $root.layout.typeName ? 'active':''}}" ng-repeat="l in layouts" ng-click="changeLayout(l)">
+               <i class="{{l.icon}}"></i>&nbsp;{{l.title}} 
+              </a>
+         	</div>
         </div>
       </div>
     </div>
@@ -136,6 +136,7 @@
 		</div>
 	</div>
 </div>
+
 <div id="dragId"></div>
 <!-- bootstrap-->
 <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
@@ -149,8 +150,9 @@
 <script type="text/javascript" src="js/angular/angular-ui-router.min.js"></script>
 
 <!-- custom-->
-<script type="text/javascript" src="js/domain.js"></script>
+<script type="text/javascript" src="js/component.js"></script>
 <script type="text/javascript" src="js/drag.js"></script>
+<script type="text/javascript" src="js/ext_layout.js"></script>
 
 
 </body>

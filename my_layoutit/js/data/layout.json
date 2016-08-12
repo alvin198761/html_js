@@ -1,0 +1,45 @@
+[
+		{
+			title:"SimpleLayout",
+			icon :"glyphicon glyphicon-film",
+			data : "",
+			typeName:"simpleLayout"
+
+		},
+		{
+			title:"BorderLayout",
+			icon :"glyphicon glyphicon-film",
+			data : "",
+			typeName :"borderLayout"
+
+		},
+		{
+			title:"GridLayout",
+			icon :"glyphicon glyphicon-film",
+			data : "",
+			typeName :"gridLayout"
+
+		},
+		{
+			title:"HorizontalLayout",
+			icon :"glyphicon glyphicon-film",
+			data : "",
+			typeName :"horizontal"
+
+		},
+		{
+			title:"VerticalLayout",
+			icon :"glyphicon glyphicon-film",
+			data : "",
+			typeName :"vertical"
+
+		},
+		{
+			title:"FlowLayout",
+			icon :"glyphicon glyphicon-film",
+			data : "",
+			typeName:"flowLayout"
+
+		}
+		 
+	]

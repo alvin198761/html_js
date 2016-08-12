@@ -1,0 +1,16 @@
+[
+		{
+			title:"Component1",
+			icon :"glyphicon glyphicon-credit-card",
+			data  :""
+
+		},{
+			title:"Component2",
+			icon :"glyphicon glyphicon-credit-card",
+			data  :""
+		},{
+			title:"Component3",
+			icon :"glyphicon glyphicon-credit-card",
+			data  :""
+		}
+	]
