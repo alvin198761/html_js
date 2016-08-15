@@ -11,6 +11,7 @@ app.controller("siteBarController",function($scope,$rootScope){
  	$scope.layouts = eval($.get({url:"js/data/layout.json",async:false}).responseText) ;
 	$scope.dataComponents= [];//eval ($.get({url:"js/data/components.json",async:false}).responseText);
 	$scope.basicComponents = eval($.get({url:"js/data/basiccomp.json",async:false}).responseText);
+	$scope.parentNode = null;
 
 	$scope.init = function(){
 
@@ -34,11 +35,11 @@ app.controller("siteBarController",function($scope,$rootScope){
 				//
 				$("#dragId").append(node);
 				//显示的东西 ，要放在添加以后，不然没效果
-				for(var i = 0 ; i < node.childNodes.length ;i++){
-					if(node.childNodes[i].nodeName =="DIV"){
-						$(node.childNodes[i]).show();
-					}
-				}
+				//for(var i = 0 ; i < node.childNodes.length ;i++){
+				//	if(node.childNodes[i].nodeName =="DIV"){
+				//		$(node.childNodes[i]).show();
+				//	}
+				//}
 
 			});
 		});
@@ -67,12 +68,13 @@ app.controller("siteBarController",function($scope,$rootScope){
 				var parentTag =$rootScope.layout.contains(ev.pageX,ev.pageY);
 				if(parentTag!= null){
 					$rootScope.layout.add(parentTag,this);
+					$(this).unbind();
 					$scope.initTargetDrag(node);
 				}else{
+					$(this).unbind();
 					$(this).remove();
 				}
-				//不管是结局如何，都要移除鼠标事件
-			    $(this).unbind();
+				 
 		});
 		 
 	};
@@ -82,10 +84,15 @@ app.controller("siteBarController",function($scope,$rootScope){
 	$scope.initTargetDrag = function (obj){
 		$(obj).on("mousedown","",function(ev){
 				//console.log(this);
+				$scope.parentNode = $(this).parent();
 				$(this).css("position", "absolute");
-				$(this).css("left", (ev.pageX - 100)+ "px");
-				$(this).css("top", (ev.pageY -100)+ "px");
+				$(this).css("left", (ev.pageX - 10)+ "px");
+				$(this).css("top", (ev.pageY -10)+ "px");
 				$(this).css("zIndex", 100);
+
+				var node = $(this);
+				$("#dragId").append(node);
+			 
 				$scope.initTargatComponet(this);
 		});	
 		
@@ -93,12 +100,10 @@ app.controller("siteBarController",function($scope,$rootScope){
 	//
 	$scope.initTargatComponet = function(obj){
 		$(document).on("mousemove",$(obj),function(ev){
-			//console.log(ev.pageX +" , " + ev.pageY + "  -- " +node);
-			$(this).css("left", (ev.pageX - 10)+ "px");
-			$(this).css("top", (ev.pageY -10)+ "px");
-
-			//this.style.left =(ev.pageX - 10)+ "px" ;
-			//this.style.top = (ev.pageY - 10) + "px";
+			//console.log(ev.pageX +" , " + ev.pageY );
+			$(obj).css("left", (ev.pageX - 10)+ "px");
+			$(obj).css("top", (ev.pageY -10)+ "px");
+ 
 			var parentTag = $rootScope.layout.contains(ev.pageX,ev.pageY);
 			if(parentTag!= null){
 				 $rootScope.layout.avtiveContainer(parentTag,true);
@@ -107,14 +112,14 @@ app.controller("siteBarController",function($scope,$rootScope){
 			}
 		}); 
 		$(document).on("mouseup",$(obj),function(ev){
-				var parentTag = $rootScope.layout.contains(ev.pageX,ev.pageY);
+			 	var parentTag =$rootScope.layout.contains(ev.pageX,ev.pageY);
 				if(parentTag!= null){
-					$scope.addToDrawPane(parentTag,this);
+					//console.log(obj);
+					$rootScope.layout.add(parentTag,$(obj));
+					//$scope.addToDrawPane(parentTag,this);
 				}else{
-					$(this).remove();
+					$rootScope.layout.add($scope.parentNode,$(obj));		 
 				}
-				//不管是结局如何，都要移除鼠标事件
-			    $(this).unbind();
 		});
 	};
 
