@@ -1,21 +1,15 @@
-# opsdev-project
-
-> A Vue.js project
-
-## Build Setup
-
-``` bash
-# install dependencies
 npm install
+npm run start
 
-# serve with hot reload at localhost:8080
-npm run dev
+因为没有一个vue的web desktop ,自己花了一天多的时间，通过从网上找例子，和自己写代码，实现了一个简单的web desktop
+技术点：
+vue2 + vuex + element ui + jquery + jquery ui + jquery tool + smartMenu + artDialog + iframeTool
+效果图：
+![image](https://github.com/alvin198761/html_js/blob/master/vue_desktop/readme/111.png?raw=true)
+![image](https://github.com/alvin198761/html_js/blob/master/vue_desktop/readme/222.png?raw=true)
+![image](https://github.com/alvin198761/html_js/blob/master/vue_desktop/readme/333.png?raw=true)
+![image](https://github.com/alvin198761/html_js/blob/master/vue_desktop/readme/444.png?raw=true)
+![image](https://github.com/alvin198761/html_js/blob/master/vue_desktop/readme/555.png?raw=true)
 
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+我的 qq 群：481434622
+邮箱：alvin198761@163.com
