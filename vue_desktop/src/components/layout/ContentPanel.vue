@@ -1,0 +1,144 @@
+<template>
+  <div id="contentPane" class="contentPane">
+    <el-carousel :autoplay="false" indicator-position="none" arrow="always">
+      <el-carousel-item v-for="item in 4">
+        <div class="app-grid">
+          <ul id="appItemUL">
+            <li v-for="app in apps" :style="{ left: app.left + 'px' , top: app.top +'px'}"
+                :shortcut="app.shortcut"><img style="cursor: pointer;" @click="openApp(app)"
+                                              :src="app.img"><span>{{app.title}}</span><em></em></li>
+          </ul>
+        </div>
+      </el-carousel-item>
+    </el-carousel>
+  </div>
+</template>
+<script>
+  import {mapGetters} from 'vuex';
+  import DesktopAppButton from '../DesktopAppButton.vue';
+  export default{
+    data: function () {
+      return {}
+    },
+    computed: {
+      ...mapGetters({
+        apps: 'gui/_apps'
+      })
+    },
+    components: {
+      DesktopAppButton
+    },
+    methods: {
+      openApp: function (app) {
+        console.log(app)
+        this.$refs.dialog1.showDialog(app.url);
+      }
+    }
+  }
+</script>
+<style>
+  .contentPane {
+    display: block;
+    position: fixed;
+    left: 100px;
+    right: 20px;
+    top: 100px;
+    bottom: 70px;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .contentPane .el-carousel .el-carousel__container {
+    overflow: hidden;
+    height: 490px;
+  }
+
+  .app-grid {
+    display: block;
+    position: fixed;
+    left: 100px;
+    right: 90px;
+    top: 0px;
+    bottom: 0px;
+  }
+
+  .app-grid ul li,
+  .app-grid ul li span,
+  {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none
+  }
+
+  .app-grid ul {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute
+  }
+
+  .app-grid ul li {
+    width: 80px;
+    height: 57px;
+    padding: 10px 0;
+    text-align: center;
+    position: absolute;
+    cursor: pointer;
+    list-style: none outside none;
+  }
+
+  .app-grid ul li img {
+    border-radius: 3px 3px 3px 3px;
+    display: block;
+    height: 48px;
+    width: 48px;
+    margin: auto
+  }
+
+  .app-grid ul li span {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.3);
+    border-radius: 10px 10px 10px 10px;
+    filter: none;
+    color: #fff;
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    margin-top: 5px;
+    overflow: hidden;
+    padding: 0 8px;
+    position: relative;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    z-index: 1;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/ui/shortcut_text.png', sizingMethod='scale')
+  }
+
+  .app-grid ul li em {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 86px;
+    height: 86px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background: #000;
+    opacity: 0.12;
+    filter: alpha(opacity=12)
+  }
+
+  .app-grid ul li:hover em,
+  .app-grid ul li.hover em {
+    display: block
+  }
+
+  .app-grid ul li.focus em {
+    display: block;
+    opacity: 0.25;
+    filter: alpha(opacity=25)
+  }
+
+</style>
