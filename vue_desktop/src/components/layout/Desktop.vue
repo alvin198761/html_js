@@ -15,20 +15,23 @@
 <script>
   import TaskBar from './TaskBar.vue';
   import RootPanel from './RootPanel.vue';
-  import Notes from '../Notes.vue'
+  import Notes from './Notes.vue'
   import {mapGetters} from 'vuex';
-  import Browser from '../Browser.vue';
+  import Browser from './Browser.vue';
   export default{
     data: function () {
       return {}
     },
     computed: {
       ...mapGetters({
-          tasks:'gui/_tasks'
+        tasks: 'taskbar/_tasks'
       })
     },
     components: {
       TaskBar, RootPanel, Notes, Browser
+    },
+    mounted: function () {
+      this.$store.dispatch("desktop/init");
     }
   }
 </script>

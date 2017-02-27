@@ -1,17 +1,11 @@
 <template>
-  <div class="dock" id="dock">
+  <div class="dock" id="dock" v-if="menus.length === 8">
     <div class="dock-container">
-      <a class="dock-item" href="http://www.sucaihuo.com"><img src="../../assets/images/home.png" alt="home" /><span>Home</span></a>
-       <a class="dock-item" href="http://www.sucaihuo.com"><img src="../../assets/images/email.png" alt="contact" /><span>Contact</span></a>
-       <a class="dock-item" href="http://www.sucaihuo.com"><img src="../../assets/images/portfolio.png" alt="portfolio" /><span>Portfolio</span></a>
-      <a class="dock-item" href="http://www.sucaihuo.com"><img src="../../assets/images/music.png" alt="music" /><span>Music</span></a>
-       <a class="dock-item" href="http://www.sucaihuo.com"><img src="../../assets/images/video.png" alt="video" /><span>Video</span></a>
-      <a class="dock-item" href="http://www.sucaihuo.com"><img src="../../assets/images/history.png" alt="history" /><span>History</span></a>
-       <a class="dock-item" href="http://www.sucaihuo.com"><img src="../../assets/images/calendar.png" alt="calendar" /><span>Calendar</span></a>
-       <a class="dock-item" href="http://www.sucaihuo.com"><img src="../../assets/images/rss.png" alt="rss" /><span>RSS</span></a>
+      <a v-for="menu in menus" @click="changeCard(menu)" class="dock-item" href="javascript:void(0)">
+        <img :src="menu.icon" :alt="menu.icon"/><span>{{menu.title}}</span>
+      </a>
     </div>
   </div>
-
 </template>
 <script>
   import {mapGetters} from 'vuex';
@@ -22,10 +16,32 @@
     },
     computed: {
       ...mapGetters({
-        items: 'gui/floatMenus'
+        menus: 'fisheye/_menus'
       })
     },
-    components: {}
+    components: {},
+    methods: {
+      changeCard: function (menu) {
+        this.$store.commit('content/changeCard', menu);
+      }
+    },
+    mounted: function () {
+      this.$store.commit('fisheye/initComponent');
+    },
+    created: function () {
+      this.$store.commit('fisheye/fetch');
+    },
+    updated: function () {
+      $('#dock').Fisheye({
+        maxWidth: 80,
+        items: 'a',
+        itemsText: 'span',
+        container: '.dock-container',
+        itemWidth: 40,
+        proximity: 90,
+        halign: 'center'
+      })
+    }
   }
 </script>
 <style>

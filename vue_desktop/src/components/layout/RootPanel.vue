@@ -1,6 +1,6 @@
 <template>
   <div id="rootPanel">
-    <FloatMenu></FloatMenu>
+    <FishEyeMenu></FishEyeMenu>
     <ContentPanel></ContentPanel>
     <Sidebar></Sidebar>
   </div>
@@ -8,7 +8,7 @@
 <script>
   import Sidebar from './Sidebar.vue';
   import {mapGetters} from 'vuex';
-  import FloatMenu from './FishEyeMenu.vue';
+  import FishEyeMenu from './FishEyeMenu.vue';
   import ContentPanel from './ContentPanel.vue';
   export default{
     data: function () {
@@ -18,7 +18,7 @@
       ...mapGetters({})
     },
     components: {
-      Sidebar, FloatMenu, ContentPanel
+      Sidebar, FishEyeMenu, ContentPanel
     }
   }
 </script>

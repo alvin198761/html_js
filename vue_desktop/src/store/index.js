@@ -5,13 +5,23 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import app from './modules/app';
-import project from './modules/project';
+import desktop from './modules/desktop';
+import fisheye from './modules/fisheye';
+import sidebar from './modules/sidebar';
+import taskbar from './modules/taskbar';
+import contentpane from './modules/contentpane';
+import browser from './modules/brower';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
     app: app,
-    project: project
+    desktop: desktop,
+    fisheye: fisheye,
+    sidebar: sidebar,
+    taskbar: taskbar,
+    contentpane: contentpane,
+    browser: browser
   }
 })

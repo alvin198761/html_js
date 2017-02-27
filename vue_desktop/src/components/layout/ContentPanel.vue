@@ -1,12 +1,12 @@
 <template>
   <div id="contentPane" class="contentPane">
-    <el-carousel :autoplay="false" indicator-position="none" arrow="always">
-      <el-carousel-item v-for="item in 4">
+    <el-carousel :autoplay="false" ref="cardPane" indicator-position="none" arrow="always">
+      <el-carousel-item v-for="card in menus" :name="card.id">
         <div class="app-grid">
           <ul id="appItemUL">
-            <li v-for="app in apps" :style="{ left: app.left + 'px' , top: app.top +'px'}"
-                :shortcut="app.shortcut"><img style="cursor: pointer;" @click="openApp(app)"
-                                              :src="app.img"><span>{{app.title}}</span><em></em></li>
+            <li v-for="app in card.apps" :style="{ left: app.left + 'px' , top: app.top +'px'}" :shortcut="app.id">
+              <img style="cursor: pointer;" @click="openApp(app)" :src="app.img"><span>{{app.title}}</span><em></em>
+            </li>
           </ul>
         </div>
       </el-carousel-item>
@@ -15,23 +15,29 @@
 </template>
 <script>
   import {mapGetters} from 'vuex';
-  import DesktopAppButton from '../DesktopAppButton.vue';
   export default{
     data: function () {
       return {}
     },
     computed: {
       ...mapGetters({
-        apps: 'gui/_apps'
+        menus: 'fisheye/_menus',
+        apps: 'content/_apps'
       })
     },
-    components: {
-      DesktopAppButton
-    },
+    components: {},
     methods: {
       openApp: function (app) {
         console.log(app)
         this.$refs.dialog1.showDialog(app.url);
+      }
+    },
+    mounted: function () {
+      this.$store.commit('content/initComponent')
+    },
+    watch: {
+      menus: function (val) {
+        this.$store.dispatch('content/doLayout');
       }
     }
   }

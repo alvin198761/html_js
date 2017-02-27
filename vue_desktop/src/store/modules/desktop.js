@@ -1,0 +1,141 @@
+/**
+ * Created by tangzhichao on 2017/2/27.
+ */
+import {Message} from 'element-ui';
+export default {
+  state: {
+    el: null,
+    contentMenuData: [
+      [{
+        text: "显示桌面",
+        func: function () {
+          // Windows.showWindowDesk();
+        }
+      }, {
+        text: "关闭所有",
+        func: function () {
+          // Windows.closeAllWindow();
+        }
+      }, {
+        text: "锁屏",
+        func: function () {
+
+        }
+      }], [{
+        text: "系统设置",
+        func: function () {
+
+        }
+      }, {
+        text: "主题设置",
+        func: function () {
+          // Windows.openSys({
+          //   id: 'themSetting',
+          //   title: '设置主题',
+          //   width: 650,
+          //   height: 500,
+          //   content: document.getElementById("themeSetting_wrap")
+          // });
+        }
+      },
+        {
+          text: "图标设置",
+          data: [[{
+            text: "大图标",
+            func: function () {
+              // Deskpanel.desktopsContainer.removeClass("desktopSmallIcon");
+            }
+          }, {
+            text: "小图标",
+            func: function () {
+              // Deskpanel.desktopsContainer.addClass("desktopSmallIcon");
+            }
+          }]]
+        }],
+      [{
+        text: "注销",
+        func: function () {
+
+        }
+      }]
+    ]
+  },
+  getters: {},
+  mutations: {
+    ['desktop/initComponent'](state){
+      state.el = $('#desktop');
+      // state.el.smartMenu(state.contextMenuData, {name: "image"});
+    },
+    ['desktop/initEvent'](state){
+      document.oncontextmenu = function () {//屏蔽浏览器右键事件
+        return false;
+      };
+      //判断是否是IE浏览器
+      if ($.browser.msie || $.browser.msadge) {
+        //添加IE右击事件
+        $("body").bind("mousedown", function (event) {
+          if (event.which == 3) {
+            $("body").smartMenu(state.contextMenuData, {name: "image"});
+          }
+        });
+      }
+      $(document).bind('mousemove', function (e) {
+        var area = $(window).width() - 50;
+        if (e.pageX > area) {
+          e.pageX = area;
+        }
+      });
+      $(window).bind('resize', function () {
+        if ($(window).width() < 800 || $(window).height() < 400) {
+          Message.info({
+            message: "浏览器当前窗口过小，可能会影响正常操作！"
+          });
+        }
+      })
+    },
+    ['desktop/bindEvent'](state)
+    {
+      function move(evt) {
+        window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+      }
+
+      function up(evt) {
+        $(document).unbind('mousemove', move).unbind('mouseup', up);
+      }
+
+      $(document).bind('mousedown', function () {
+        $(document).bind('mousemove', move).bind('mouseup', up);
+      });
+
+      $(".notes").draggable({
+        containment: "#desktop", start: function () {
+          var zindex = $("#mome").css("z-index");
+          var z = parseInt(zindex) + 1;
+          $("#inform").css({"z-index": z});
+        }
+      });
+
+      $(".notes").click(function () {
+        var zindex = $("#mome").css("z-index");
+        var z = parseInt(zindex) + 1;
+        $("#inform").css({"z-index": z});
+      });
+    }
+    ,
+    ['desktop/mainMenu'](state)
+    {
+      $('#desktop').smartMenu(state.contentMenuData, {name: "image"});
+    }
+  },
+  actions: {
+    ['desktop/init']({commit}){
+      commit('desktop/initEvent');
+      commit('desktop/bindEvent');
+      commit('desktop/initComponent');
+    },
+    ['desktop/initContextMenu']({commit}){
+      commit('desktop/mainMenu');
+      commit('taskbar/taskMenu');
+    }
+  }
+};

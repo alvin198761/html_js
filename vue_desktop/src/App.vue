@@ -1,10 +1,14 @@
 <template>
-  <Desktop></Desktop>
+  <div>
+    <Desktop></Desktop>
+    <ContextMenu></ContextMenu>
+  </div>
 </template>
 
 <script>
   import {mapGetters} from 'vuex'
   import Desktop from './components/layout/Desktop.vue';
+  import ContextMenu from './components/layout/ContextMenu.vue';
   export default {
     name: 'app',
     data: function () {
@@ -14,9 +18,13 @@
       ...mapGetters({}),
     },
     mounted: function () {
-      this.$store.commit("gui/init");
+      this.$store.commit("app/init");
+      let _this = this;
+      $.window.bind('resize', function () {
+        _this.$store.dispatch('content/doLayout');
+      });
     },
-    components: {Desktop}
+    components: {Desktop, ContextMenu}
   }
 </script>
 

@@ -21,9 +21,7 @@ import 'assets/js/interface';
 import 'assets/css/main.css';
 import 'assets/css/jquery-ui-1.8.24.custom.css';
 import '../node_modules/jquery-ui/ui/widgets/draggable';
-
-import './assets/js/jquery.tool';
-import './assets/css/jquery-tool-custom.css';
+import './assets/js/jq-ie-plugin';
 
 promise.polyfill();
 

@@ -5,40 +5,14 @@
     </div>
     <div id="taskContainer" class="taskContainer" style="width: 476px;">
       <div id="taskContainerInner" class="taskContainerInner" style="margin-right: 0px; width: 476px;">
-        <div class="taskGroup taskGroupAnaWidth" id="taskGroup_64_64">
-          <div class="taskItemBox"><a class="taskItem fistTaskItem" href="#" id="taskItem_64" title="Pixlr" tid="64"
-                                      appid="64_64">
-            <div class="taskItemIcon"><img src="../../assets/icon/min/pixlr.png">
+        <div v-for="task in tasks" class="taskGroup taskGroupAnaWidth"
+             :class="task.id === currentBrowserId ? 'taskCurrent':''" :id="'taskGroup_'+task.id">
+          <div class="taskItemBox"><a class="taskItem fistTaskItem" href="#" :id="'taskItem_'+task.id" :title="task.id"
+                                      :tid="task.id" :appid="task.id+'_'+task.id">
+            <div class="taskItemIcon"><img :src="task.icon"/>
               <div class="taskItemIconState"></div>
             </div>
-            <div class="taskItemTxt">Pixlr</div>
-          </a></div>
-        </div>
-        <div class="taskGroup taskGroupAnaWidth" id="taskGroup_42_42">
-          <div class="taskItemBox"><a class="taskItem fistTaskItem" href="#" id="taskItem_42" title="搜搜地图" tid="42"
-                                      appid="42_42">
-            <div class="taskItemIcon"><img src="../../assets/icon/min/sosomap.png">
-              <div class="taskItemIconState"></div>
-            </div>
-            <div class="taskItemTxt">搜搜地图</div>
-          </a></div>
-        </div>
-        <div class="taskGroup taskGroupAnaWidth" id="taskGroup_8992_8992">
-          <div class="taskItemBox"><a class="taskItem fistTaskItem" href="#" id="taskItem_8992" title="金山快盘" tid="8992"
-                                      appid="8992_8992">
-            <div class="taskItemIcon"><img src="../../assets/icon/min/jinshan.png">
-              <div class="taskItemIconState"></div>
-            </div>
-            <div class="taskItemTxt">金山快盘</div>
-          </a></div>
-        </div>
-        <div class="taskGroup taskGroupAnaWidth taskCurrent" id="taskGroup_3402_3402">
-          <div class="taskItemBox"><a class="taskItem fistTaskItem" href="#" id="taskItem_3402" title="豆瓣电台" tid="3402"
-                                      appid="3402_3402">
-            <div class="taskItemIcon"><img src="../../assets/icon/min/douban.png">
-              <div class="taskItemIconState"></div>
-            </div>
-            <div class="taskItemTxt">豆瓣电台</div>
+            <div class="taskItemTxt">{{task.title}}</div>
           </a></div>
         </div>
       </div>
@@ -55,7 +29,13 @@
       return {}
     },
     computed: {
-      ...mapGetters({})
+      ...mapGetters({
+        tasks: 'taskbar/_tasks',
+        currentBrowserId: 'browser/currentBrowserId'
+      })
+    },
+    mounted: function () {
+      this.$store.commit('taskbar/initComponent')
     }
   }
 </script>
