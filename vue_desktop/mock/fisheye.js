@@ -6,12 +6,13 @@ module.exports = {
   "GET /api/fisheye/apps": function (req, res) {
     let apps = [];
     for (let i = 0; i < 14; i++) {
-      let pic = i % 8 + 1;
+      let pic = i % 6 + 1;
       apps.push({
         id: '00' + i,
         type: 'web',
         title: '测试应用' + i,
         icon: pic + '.png',
+        url: 'http://www.baidu.com'
       })
     }
     let data = [

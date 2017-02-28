@@ -4,7 +4,8 @@
 export default {
   state: {
     el: null,
-    currentCard: null
+    currentCard: null,
+    cardPane: null
   },
   getters: {
     ['content/_apps'](state){
@@ -37,11 +38,15 @@ export default {
     }
   },
   mutations: {
-    ['content/initComponent'](state){
-      console.log(state)
+    ['content/initComponent'](state, payload){
+      state.el = $('#contentPane');
+      state.cardPane = payload;
     },
     ['content/changeCard'](state, payload){
       state.currentCard = payload;
+    },
+    ['content/setActiveItem'](state, payload){
+      state.cardPane.setActiveItem(payload)
     },
     ['content/doAppLayout'](state, rootState){
       let menus = rootState.fisheye.menus;
@@ -65,9 +70,5 @@ export default {
       }
     }
   },
-  actions: {
-    ['content/doLayout']({commit, rootState}){
-      commit('content/doAppLayout', rootState);
-    }
-  }
+  actions: {}
 };

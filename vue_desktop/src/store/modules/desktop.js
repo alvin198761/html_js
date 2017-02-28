@@ -5,6 +5,7 @@ import {Message} from 'element-ui';
 export default {
   state: {
     el: null,
+    alert: false,
     contentMenuData: [
       [{
         text: "显示桌面",
@@ -87,10 +88,16 @@ export default {
       });
       $(window).bind('resize', function () {
         if ($(window).width() < 800 || $(window).height() < 400) {
-          Message.info({
-            message: "浏览器当前窗口过小，可能会影响正常操作！"
-          });
+          if (state.alert === false) {
+            Message.info({
+              message: "浏览器当前窗口过小，可能会影响正常操作！"
+            });
+          }
+          state.alert = true;
+        } else {
+          state.alert = false;
         }
+
       })
     },
     ['desktop/bindEvent'](state)
@@ -105,20 +112,6 @@ export default {
 
       $(document).bind('mousedown', function () {
         $(document).bind('mousemove', move).bind('mouseup', up);
-      });
-
-      $(".notes").draggable({
-        containment: "#desktop", start: function () {
-          var zindex = $("#mome").css("z-index");
-          var z = parseInt(zindex) + 1;
-          $("#inform").css({"z-index": z});
-        }
-      });
-
-      $(".notes").click(function () {
-        var zindex = $("#mome").css("z-index");
-        var z = parseInt(zindex) + 1;
-        $("#inform").css({"z-index": z});
       });
     }
     ,

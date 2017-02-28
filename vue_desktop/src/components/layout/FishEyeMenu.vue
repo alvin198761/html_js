@@ -22,14 +22,14 @@
     components: {},
     methods: {
       changeCard: function (menu) {
-        this.$store.commit('content/changeCard', menu);
+        this.$store.commit('content/changeCard', menu.id);
       }
     },
     mounted: function () {
       this.$store.commit('fisheye/initComponent');
     },
     created: function () {
-      this.$store.commit('fisheye/fetch');
+      this.$store.commit('fisheye/fetch', this.$store);
     },
     updated: function () {
       $('#dock').Fisheye({

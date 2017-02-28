@@ -1,12 +1,10 @@
 <template>
   <div id="contentPane" class="contentPane">
-    <el-carousel :autoplay="false" ref="cardPane" indicator-position="none" arrow="always">
+    <el-carousel :autoplay="false" ref="cardPane" indicator-position="none">
       <el-carousel-item v-for="card in menus" :name="card.id">
         <div class="app-grid">
           <ul id="appItemUL">
-            <li v-for="app in card.apps" :style="{ left: app.left + 'px' , top: app.top +'px'}" :shortcut="app.id">
-              <img style="cursor: pointer;" @click="openApp(app)" :src="app.img"><span>{{app.title}}</span><em></em>
-            </li>
+            <AppButton v-for="app in card.apps" :app="app"></AppButton>
           </ul>
         </div>
       </el-carousel-item>
@@ -15,30 +13,29 @@
 </template>
 <script>
   import {mapGetters} from 'vuex';
+  import AppButton from './AppButton.vue';
   export default{
     data: function () {
       return {}
     },
     computed: {
       ...mapGetters({
-        menus: 'fisheye/_menus',
-        apps: 'content/_apps'
+        menus: 'fisheye/_menus'
       })
     },
-    components: {},
-    methods: {
-      openApp: function (app) {
-        console.log(app)
-        this.$refs.dialog1.showDialog(app.url);
-      }
+    components: {
+      AppButton
     },
+    methods: {},
     mounted: function () {
-      this.$store.commit('content/initComponent')
+      this.$store.commit('content/initComponent', this.$refs.cardPane)
+      let obj = $(this.$refs.cardPane.items[0].$el);
+      obj.css({
+        display: 'block'
+      })
     },
-    watch: {
-      menus: function (val) {
-        this.$store.dispatch('content/doLayout');
-      }
+    updated: function () {
+
     }
   }
 </script>
@@ -69,8 +66,7 @@
   }
 
   .app-grid ul li,
-  .app-grid ul li span,
-  {
+  .app-grid ul li span {
     -moz-user-select: none;
     -khtml-user-select: none;
     user-select: none
@@ -84,13 +80,17 @@
   }
 
   .app-grid ul li {
-    width: 80px;
-    height: 57px;
+    width: 90px;
+    height: 78px;
     padding: 10px 0;
     text-align: center;
-    position: absolute;
+    /*position: absolute;*/
     cursor: pointer;
     list-style: none outside none;
+    margin-right: 50px;
+    margin-bottom: 10px;
+    float: left;
+    display: block;
   }
 
   .app-grid ul li img {
@@ -117,12 +117,12 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     z-index: 1;
-    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/ui/shortcut_text.png', sizingMethod='scale')
   }
 
   .app-grid ul li em {
-    display: none;
-    position: absolute;
+    display: block;
+    /*position: inherit;*/
+    float: left;
     top: 0;
     left: 0;
     z-index: 0;
@@ -132,13 +132,19 @@
     -moz-border-radius: 5px;
     border-radius: 5px;
     background: #000;
-    opacity: 0.12;
+    /*opacity: 0.12;*/
     filter: alpha(opacity=12)
   }
 
   .app-grid ul li:hover em,
   .app-grid ul li.hover em {
-    display: block
+    /*display: block*/
+  }
+
+  .app-grid ul li:hover {
+    background: #ccc;
+    border-radius: 10px;
+    opacity: 0.9;
   }
 
   .app-grid ul li.focus em {

@@ -5,8 +5,9 @@
     </div>
     <div id="taskContainer" class="taskContainer" style="width: 476px;">
       <div id="taskContainerInner" class="taskContainerInner" style="margin-right: 0px; width: 476px;">
-        <div v-for="task in tasks" class="taskGroup taskGroupAnaWidth"
-             :class="task.id === currentBrowserId ? 'taskCurrent':''" :id="'taskGroup_'+task.id">
+        <div v-for="task in tasks" @click="activeTask(task)" class="taskGroup taskGroupAnaWidth"
+             :class="'#window_' + task.id + '_warp' === currentBrowserId ? 'taskCurrent':''"
+             :id="'taskGroup_'+task.id">
           <div class="taskItemBox"><a class="taskItem fistTaskItem" href="#" :id="'taskItem_'+task.id" :title="task.id"
                                       :tid="task.id" :appid="task.id+'_'+task.id">
             <div class="taskItemIcon"><img :src="task.icon"/>
@@ -36,6 +37,11 @@
     },
     mounted: function () {
       this.$store.commit('taskbar/initComponent')
+    },
+    methods: {
+      activeTask: function (task) {
+        this.$store.dispatch('taskbar/activeTask', task)
+      }
     }
   }
 </script>

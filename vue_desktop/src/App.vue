@@ -19,10 +19,6 @@
     },
     mounted: function () {
       this.$store.commit("app/init");
-      let _this = this;
-      $.window.bind('resize', function () {
-        _this.$store.dispatch('content/doLayout');
-      });
     },
     components: {Desktop, ContextMenu}
   }

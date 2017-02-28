@@ -51,7 +51,7 @@
     },
     methods: {
       openBrowser: function (app) {
-        this.$store.commit('taskbar/openBrower', app)
+        this.$store.dispatch('taskbar/addTask', app)
       }
     }
   }

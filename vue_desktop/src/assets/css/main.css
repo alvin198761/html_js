@@ -40,8 +40,8 @@ a#startingChangeEvn {
   height:164px;;
   position:absolute;
   z-index:81;
-  top:80px;
-  right:200px;
+  top:20px;
+  right:50px;
   background-image:url(../images/memo_background.png);
 }
 .infotitl{

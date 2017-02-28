@@ -29,10 +29,25 @@ export default {
         name: "task_bar",
       });
     },
-    ['taskbar/openBrower'](state, payload){
+    ['taskbar/removeTask'](state, payload){
+      let index = state.tasks.indexOf(payload.task);
+      state.tasks.splice(index, 1);
+    },
+    ['taskbar/addTask'](state, payload){
       state.tasks.push(payload)
-      console.log(payload)
     }
   },
-  actions: {}
+  actions: {
+    ['taskbar/addTask']({rootState, commit}, payload){
+      if (rootState.taskbar.tasks.indexOf(payload) === -1) {
+        commit('taskbar/addTask', payload)
+      } else {
+        commit('browser/clickActiveChange', {id: payload})
+      }
+    },
+    ['taskbar/activeTask']({commit}, payload){
+      commit('browser/showBrowser', {id: '#window_' + payload.id + '_warp'});
+      commit('browser/clickActiveChange', {id: '#window_' + payload.id + '_warp'})
+    }
+  }
 };
