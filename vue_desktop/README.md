@@ -8,8 +8,6 @@ vue2 + vuex + element ui + jquery + jquery ui + smartMenu
 ![image](https://github.com/alvin198761/html_js/blob/master/vue_desktop/readme/111.png?raw=true)
 ![image](https://github.com/alvin198761/html_js/blob/master/vue_desktop/readme/222.png?raw=true)
 ![image](https://github.com/alvin198761/html_js/blob/master/vue_desktop/readme/333.png?raw=true)
-![image](https://github.com/alvin198761/html_js/blob/master/vue_desktop/readme/444.png?raw=true)
-![image](https://github.com/alvin198761/html_js/blob/master/vue_desktop/readme/555.png?raw=true)
 
 我的 qq 群：481434622
 邮箱：alvin198761@163.com
