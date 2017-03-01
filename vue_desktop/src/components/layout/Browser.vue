@@ -1,10 +1,8 @@
 <template>
-  <div style="width: 740px; height: 500px; top: 0px; left: 288px; z-index: 3;" class="window-container window-current"
+  <div style="width: 740px; height: 500px; top: 100px; left: 288px; z-index: 3;" class="window-container window-current"
        :window="task.id" :id="'window_'+task.id+'_warp'">
     <div style="height: 100%;" :id="'window_'+task.id+'_inner'">
-      <div @dblclick="haDblClick" @mousedown="haMouseDown" @mouseup="haMouseUp" @mouseout="haMouseUp"
-           @mousemove="haMouseMove"
-           class="title-bar">{{task.title}}
+      <div @dblclick="haDblClick" class="title-bar" @mousedown="haMouseDown">{{task.title}}
         <div class="title-handle">
           <a @click="haMin" class="ha-min" btn="hide" href="javascript:void(0);">最小化</a>
           <a @click="haMax" class="ha-max" btn="max" href="javascript:void(0);">最大化</a>
@@ -82,6 +80,8 @@
         'z-index': this.$store.state.browser.zIndex
       });
       this.$store.commit('browser/zIndexAdd');
+      obj.draggable();
+      obj.resizeable()
     },
     methods: {
       //最小化
@@ -150,54 +150,15 @@
         }
         this.haMouseDown(e)
       },
+      haMouseDown: function (e) {
+        this.$store.commit('browser/clickActiveChange', {id: this.browserId})
+      },
       //刷新
       refreshBrowser: function (e) {
         e.stopPropagation();
         let obj = $(this.browserId);
         $("#frame" + obj.attr('window')).attr("src", $("#frame" + obj.attr('window')).attr("src"));
       },
-      //移动事件综合
-      haMouseDown: function (e) {
-        e.stopPropagation();
-        this.drag = true;
-        //改变窗口为选中样式
-        let obj = $(this.browserId)
-        obj.find('.window-container').removeClass('window-current');
-        obj.addClass('window-current').css({
-          'z-index': this.$store.state.browser.zIndex
-        });
-        this.$store.commit('browser/zIndexAdd')
-        this.position = {
-          x: e.screenX,
-          y: e.screenY,
-          sT: obj.offset().top,
-          sL: obj.offset().left
-        }
-        this.$store.commit('browser/clickActiveChange', {id: this.browserId});
-      },
-      haMouseUp: function (e) {
-        this.drag = false;
-      },
-      haMouseMove: function (e) {
-        if (!this.drag) {
-          return;
-        }
-        let obj = $(this.browserId)
-        let lessX = e.screenX - this.position.x;
-        let lessY = e.screenY - this.position.y;
-
-        obj.css({
-          left: this.position.sL + lessX,
-          top: this.position.sT + lessY
-        });
-
-        this.position = {
-          x: e.screenX,
-          y: e.screenY,
-          sT: obj.offset().top,
-          sL: obj.offset().left
-        }
-      }
     },
 
   }

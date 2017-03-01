@@ -21,10 +21,14 @@ export default {
         let data = res.data;
         for (let i in data) {
           data[i].icon = require('../../assets/images/' + data[i].icon)
+          let apps = data[i].apps;
+          for (let j in apps) {
+            data[i].apps[j].icon = require('../../assets/icon/' + apps[j].icon)
+          }
         }
         state.menus = data;
         if (state.menus.length > 0) {
-          store.commit('content/changeCard',data[0].id)
+          store.commit('content/changeCard', {item: 0})
         }
       }).catch(function (res) {
         state.menus = [];

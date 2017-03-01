@@ -11,6 +11,7 @@ import sidebar from './modules/sidebar';
 import taskbar from './modules/taskbar';
 import contentpane from './modules/contentpane';
 import browser from './modules/brower';
+import notes from './modules/notes';
 
 Vue.use(Vuex)
 
@@ -22,6 +23,7 @@ export default new Vuex.Store({
     sidebar: sidebar,
     taskbar: taskbar,
     contentpane: contentpane,
-    browser: browser
+    browser: browser,
+    notes: notes
   }
 })

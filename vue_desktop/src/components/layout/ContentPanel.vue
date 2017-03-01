@@ -1,9 +1,9 @@
 <template>
   <div id="contentPane" class="contentPane">
     <el-carousel :autoplay="false" ref="cardPane" indicator-position="none">
-      <el-carousel-item v-for="card in menus" :name="card.id">
+      <el-carousel-item v-for="card in menus">
         <div class="app-grid">
-          <ul id="appItemUL">
+          <ul>
             <AppButton v-for="app in card.apps" :app="app"></AppButton>
           </ul>
         </div>
@@ -29,13 +29,13 @@
     methods: {},
     mounted: function () {
       this.$store.commit('content/initComponent', this.$refs.cardPane)
-      let obj = $(this.$refs.cardPane.items[0].$el);
-      obj.css({
-        display: 'block'
-      })
     },
     updated: function () {
-
+      let _this = this;
+      let timer = setInterval(function () {
+        _this.$refs.cardPane.resetItemPosition();
+        clearInterval(timer)
+      }, 100)
     }
   }
 </script>

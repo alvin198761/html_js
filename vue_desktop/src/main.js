@@ -19,11 +19,10 @@ import 'assets/css/style.css';
 import 'assets/js/interface';
 
 import 'assets/css/main.css';
-import 'assets/css/jquery-ui-1.8.24.custom.css';
 import '../node_modules/jquery-ui/ui/widgets/draggable';
-
+import 'assets/css/jquery-ui-1.8.24.custom.css';
 import './assets/js/jq-ie-plugin';
-
+import './assets/js/jq-resize-plugin';
 
 promise.polyfill();
 

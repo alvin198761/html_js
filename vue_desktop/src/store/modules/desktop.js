@@ -59,9 +59,15 @@ export default {
 
         }
       }]
-    ]
+    ],
+    inputMethod: false,
+    sysSettingDialog: null
   },
-  getters: {},
+  getters: {
+    ['desktop/inputMethod'](state){
+      return state.inputMethod;
+    }
+  },
   mutations: {
     ['desktop/initComponent'](state){
       state.el = $('#desktop');
@@ -100,8 +106,7 @@ export default {
 
       })
     },
-    ['desktop/bindEvent'](state)
-    {
+    ['desktop/bindEvent'](state)    {
       function move(evt) {
         window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
       }
@@ -113,11 +118,22 @@ export default {
       $(document).bind('mousedown', function () {
         $(document).bind('mousemove', move).bind('mouseup', up);
       });
-    }
-    ,
-    ['desktop/mainMenu'](state)
-    {
+    },
+    ['desktop/mainMenu'](state)    {
       $('#desktop').smartMenu(state.contentMenuData, {name: "image"});
+    },
+    ['desktop/showInput'](state){
+      state.inputMethod = !state.inputMethod;
+    },
+    ['desktop/openSettingDialog'](state){
+      state.sysSettingDialog.showDialog(true)
+    },
+    ['desktop/closeSettingDialog'](state){
+      state.sysSettingDialog.showDialog(false)
+    },
+    ['desktop/initSysSettingDialog'](state, payload){
+      state.sysSettingDialog = payload;
+      console.log(state.sysSettingDialog)
     }
   },
   actions: {
@@ -129,6 +145,9 @@ export default {
     ['desktop/initContextMenu']({commit}){
       commit('desktop/mainMenu');
       commit('taskbar/taskMenu');
+    },
+    ['desktop/initChildren']({commit}){
+      commit('note/initComponent')
     }
   }
 };

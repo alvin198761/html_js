@@ -22,7 +22,8 @@
     components: {},
     methods: {
       changeCard: function (menu) {
-        this.$store.commit('content/changeCard', menu.id);
+        let index = this.menus.indexOf(menu);
+        this.$store.commit('content/changeCard', {item: index});
       }
     },
     mounted: function () {

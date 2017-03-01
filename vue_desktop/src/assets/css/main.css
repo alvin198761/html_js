@@ -35,22 +35,6 @@ a:focus {
 a#startingChangeEvn {
   display: none;
 }
-.notes{
-  width:161px;
-  height:164px;;
-  position:absolute;
-  z-index:81;
-  top:20px;
-  right:50px;
-  background-image:url(../images/memo_background.png);
-}
-.infotitl{
-  width:100%;
-  height:20px;
-  line-height:20px;
-  font-size:12px;
-  text-align:center;
-}
 
 .bottomBarBg {
   background: url("../../assets/images/bg_task_main.png") repeat-x scroll 0 0 transparent;

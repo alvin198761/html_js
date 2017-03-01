@@ -2,6 +2,8 @@
  * Created by tangzhichao on 2017/2/27.
  */
 
+let Mock = require('mockjs');
+
 module.exports = {
   "GET /api/fisheye/apps": function (req, res) {
     let apps = [];
@@ -12,7 +14,8 @@ module.exports = {
         type: 'web',
         title: '测试应用' + i,
         icon: pic + '.png',
-        url: 'http://www.baidu.com'
+        url: 'http://www.baidu.com',
+        msgCount:Mock.mock('@integer(0, 3)')
       })
     }
     let data = [
