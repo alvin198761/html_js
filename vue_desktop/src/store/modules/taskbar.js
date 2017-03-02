@@ -4,13 +4,20 @@
 export default {
   state: {
     el: null,
-    contextMenuData: [[{
-      text: "工具栏"
-    }, {
-      text: "任务管理器"
-    }, {
-      text: "显示桌面"
-    }], [{
+    contextMenuData: [[
+      {
+        text: "关闭窗口",
+        func: function () {
+         // console.log($(this))
+        }
+      },
+      {
+        text: "工具栏"
+      }, {
+        text: "任务管理器"
+      }, {
+        text: "显示桌面"
+      }], [{
       text: "属性"
     }]],
     tasks: []
@@ -38,11 +45,11 @@ export default {
     }
   },
   actions: {
-    ['taskbar/addTask']({rootState, commit}, payload){
+    ['taskbar/addTask']({rootState, commit, dispatch}, payload){
       if (rootState.taskbar.tasks.indexOf(payload) === -1) {
         commit('taskbar/addTask', payload)
       } else {
-        commit('browser/clickActiveChange', {id: payload})
+        dispatch('taskbar/activeTask', payload)
       }
     },
     ['taskbar/activeTask']({commit}, payload){

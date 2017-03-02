@@ -11,11 +11,11 @@ module.exports = {
       let pic = i % 6 + 1;
       apps.push({
         id: '00' + i,
-        type: 'web',
+        type: Mock.mock('@integer(1,2)'),
         title: '测试应用' + i,
         icon: pic + '.png',
         url: 'http://www.baidu.com',
-        msgCount:Mock.mock('@integer(0, 3)')
+        msgCount: Mock.mock('@integer(0, 3)')
       })
     }
     let data = [
@@ -73,15 +73,17 @@ module.exports = {
       res.json(data)
     }, 500)
   },
-  "GET /api/content/apps": function (req, res) {
+  "GET /api/content/apps/:id": function (req, res) {
     let data = [];
     for (let i = 0; i < 14; i++) {
-      let pic = i % 8 + 1;
+      let pic = i % 6 + 1;
       data.push({
         id: '00' + i,
-        type: 'web',
-        title: '测试应用' + i,
+        type: 1,
+        title: '子应用' + i,
         icon: pic + '.png',
+        url: 'http://www.baidu.com',
+        msgCount: Mock.mock('@integer(0, 3)')
       })
     }
     setTimeout(function () {

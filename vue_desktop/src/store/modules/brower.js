@@ -29,21 +29,6 @@ export default {
       state.browsers.push(payload);
       state.currentBrowser = payload;
     },
-    ['browser/removeChange'](state, payload){
-      let index = state.browsers.indexOf(payload.id);
-      state.browsers.splice(index, 1);
-      if (state.browsers.length == 0) {
-        state.zIndex = 999999;
-        return;
-      }
-      //激活下一个窗口
-      let obj = $(state.browsers[0]);
-      $('.window-container').removeClass('window-current');
-      obj.addClass('window-current').css({
-        'z-index': state.zIndex
-      });
-      state.currentBrowser = state.browsers[0];
-    },
     ['browser/minActiveChange'](state, payload){
       let index = state.browsers.indexOf(payload.id);
       state.browsers.splice(index, 1);
@@ -58,6 +43,9 @@ export default {
       state.currentBrowser = state.browsers[0];
     },
     ['browser/clickActiveChange'](state, payload){
+      if (state.browsers.length === 1) {
+        return;
+      }
       let index = state.browsers.indexOf(payload.id);
       state.browsers.splice(index, 1);
       state.browsers.splice(0, 0, payload.id);
@@ -77,7 +65,6 @@ export default {
   },
   actions: {
     ['browser/remove']({commit}, payload){
-      commit('browser/removeChange', payload);
       commit('taskbar/removeTask', payload);
     }
   }

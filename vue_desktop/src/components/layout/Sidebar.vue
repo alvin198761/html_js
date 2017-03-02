@@ -20,7 +20,7 @@
                href="javascript:void(0)"></a>
           </div>
           <div class="dock_tool_item">
-            <a @click="showSettingDialog" title="系统设置" cmd="Setting" class="dock_tool_icon dock_tool_setting"
+            <a @click="openSystemSettingDialog" title="系统设置" cmd="Setting" class="dock_tool_icon dock_tool_setting"
                href="javascript:void(0)"></a>
             <a title="主题设置" cmd="Theme" class="dock_tool_icon dock_tool_theme" href="javascript:void(0)"></a>
           </div>
@@ -52,10 +52,12 @@
     methods: {
       ...mapMutations({
         showInput: 'desktop/showInput',
-        showSettingDialog: 'desktop/openSettingDialog'
       }),
       openBrowser: function (app) {
         this.$store.dispatch('taskbar/addTask', app)
+      },
+      openSystemSettingDialog: function (e) {
+        this.$store.commit('desktop/showSysSettingDialog', true)
       }
     }
   }

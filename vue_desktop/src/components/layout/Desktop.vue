@@ -12,12 +12,15 @@
 
     <div layout="tools">
       <Notes v-for="note in notes" :note="note"></Notes>
-      <Browser v-for="t in tasks" :task="t"></Browser>
+      <template v-for="t in tasks">
+        <Browser v-if="t.type === 1" :task="t"></Browser>
+        <AppDialog v-if="t.type === 2" :task="t"></AppDialog>
+      </template>
     </div>
 
     <div layout="setting">
       <InputMethod v-if="showInput"></InputMethod>
-      <SysSettingDialog ref="sysSettingDialog"></SysSettingDialog>
+      <SysSettingDialog v-if="showSysSettingDialog"></SysSettingDialog>
     </div>
   </div>
 </template>
@@ -27,6 +30,7 @@
   import Notes from './Notes.vue'
   import {mapGetters} from 'vuex';
   import Browser from './Browser.vue';
+  import AppDialog from './AppDialog.vue';
   import InputMethod from '../setting/InputMethod.vue';
   import SysSettingDialog from '../setting/SysSettingDialog.vue';
   export default{
@@ -37,11 +41,12 @@
       ...mapGetters({
         tasks: 'taskbar/_tasks',
         notes: 'note/_notes',
-        showInput: 'desktop/inputMethod'
+        showInput: 'desktop/inputMethod',
+        showSysSettingDialog: 'desktop/getShowSysSettingDialog'
       })
     },
     components: {
-      TaskBar, RootPanel, Notes, Browser, InputMethod, SysSettingDialog
+      TaskBar, RootPanel, Notes, Browser, AppDialog, InputMethod, SysSettingDialog
     },
     mounted: function () {
       this.$store.dispatch("desktop/init");

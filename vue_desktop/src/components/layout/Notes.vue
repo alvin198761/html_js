@@ -1,5 +1,5 @@
 <template>
-  <div class="notes">
+  <div class="notes" :id="'note_'+note.id">
     <div class="infotitl">{{note.title}}</div>
   </div>
 </template>
@@ -15,18 +15,12 @@
     },
     mounted: function () {
       let _this = this;
-      $(".notes").draggable({
-        containment: "#desktop", start: function () {
-          var zindex = _this.$store.state.notes.zIndex;
-          $("#inform").css({"z-index": zindex + 1});
-          _this.$store.commit('note/zIndex');
-        }
-      });
+      $("#note_" + this.note.id).draggable({containment: "#desktop"});
 
-      $(".notes").click(function () {
-        var zindex = $("#mome").css("z-index");
-        var z = parseInt(zindex) + 1;
-        $("#inform").css({"z-index": z});
+      $("#note_" + this.note.id).click(function () {
+        var zIndex = _this.$store.state.notes.zIndex;
+        $("#note_" + _this.note.id).css({"z-index": zIndex + 1});
+        _this.$store.commit('note/zIndex');
       });
     }
   }

@@ -61,11 +61,14 @@ export default {
       }]
     ],
     inputMethod: false,
-    sysSettingDialog: null
+    showSysSettingDialog: false
   },
   getters: {
     ['desktop/inputMethod'](state){
       return state.inputMethod;
+    },
+    ['desktop/getShowSysSettingDialog'](state){
+      return state.showSysSettingDialog;
     }
   },
   mutations: {
@@ -77,15 +80,15 @@ export default {
       document.oncontextmenu = function () {//屏蔽浏览器右键事件
         return false;
       };
-      //判断是否是IE浏览器
-      if ($.browser.msie || $.browser.msadge) {
-        //添加IE右击事件
-        $("body").bind("mousedown", function (event) {
-          if (event.which == 3) {
-            $("body").smartMenu(state.contextMenuData, {name: "image"});
-          }
-        });
-      }
+      // //判断是否是IE浏览器
+      // if ($.browser.msie || $.browser.msadge) {
+      //   //添加IE右击事件
+      //   $("body").bind("mousedown", function (event) {
+      //     if (event.which == 3) {
+      //       $("body").smartMenu(state.contextMenuData, {name: "image"});
+      //     }
+      //   });
+      // }
       $(document).bind('mousemove', function (e) {
         var area = $(window).width() - 50;
         if (e.pageX > area) {
@@ -120,20 +123,13 @@ export default {
       });
     },
     ['desktop/mainMenu'](state)    {
-      $('#desktop').smartMenu(state.contentMenuData, {name: "image"});
+      $('#contentPane').smartMenu(state.contentMenuData, {name: "image"});
     },
     ['desktop/showInput'](state){
       state.inputMethod = !state.inputMethod;
     },
-    ['desktop/openSettingDialog'](state){
-      state.sysSettingDialog.showDialog(true)
-    },
-    ['desktop/closeSettingDialog'](state){
-      state.sysSettingDialog.showDialog(false)
-    },
-    ['desktop/initSysSettingDialog'](state, payload){
-      state.sysSettingDialog = payload;
-      console.log(state.sysSettingDialog)
+    ['desktop/showSysSettingDialog'](state, paylod){
+      state.showSysSettingDialog = paylod
     }
   },
   actions: {
