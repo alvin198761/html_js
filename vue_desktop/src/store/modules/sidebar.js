@@ -20,7 +20,7 @@ export default {
       http.get('/api/sidebar/apps').then(function (res) {
         let data = res.data;
         for (let i in data) {
-          data[i].icon = require('../../assets/icon/' + data[i].icon)
+          data[i].icon = require('../../assets/icon/sidebar/' + data[i].icon)
         }
         state.apps = data;
       }).catch(function (res) {

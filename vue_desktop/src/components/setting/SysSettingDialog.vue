@@ -1,5 +1,5 @@
 <template>
-  <Explorer :id="'controlPane_id'" title="控制面板" :resize="false" :max="false" :handleClose="handleClose">
+  <Explorer :id="'controlPane_id'" title="控制面板" :resize="false" :min="false" :max="false" :handleClose="handleClose">
     <div slot="content">
       <el-tabs v-model="tabActive" type="card">
         <el-tab-pane label="常规" name="first">常规</el-tab-pane>
@@ -12,10 +12,10 @@
 </template>
 <script>
 
-  import Explorer from '../layout/Explorer.vue';
+  import Explorer from '../commons/Explorer.vue';
 
   export default {
-
+    props: ['userObject', 'options', 'index'],
     data: function () {
       return {
         tabActive: null,
@@ -28,7 +28,11 @@
     },
     methods: {
       handleClose: function (e) {
-        this.$store.commit('desktop/showSysSettingDialog', false)
+        const _this = this;
+        this.$store.dispatch('desktop/removeComponent', {
+          task: _this.userObject,
+          index: _this.index
+        })
       }
     },
     components: {

@@ -1,52 +1,28 @@
 <template>
   <div id="desktop">
-    <div>
-      <RootPanel></RootPanel>
-    </div>
-
-    <div class='bottomBarBg'>
-      <div class="bottomBarBgTask"></div>
-    </div>
-    <div class='bottomBarBgTask'></div>
+    <RootPanel></RootPanel>
     <TaskBar></TaskBar>
-
-    <div layout="tools">
-      <Notes v-for="note in notes" :note="note"></Notes>
-      <template v-for="t in tasks">
-        <Browser v-if="t.type === 1" :task="t"></Browser>
-        <AppDialog v-if="t.type === 2" :task="t"></AppDialog>
-      </template>
-    </div>
-
-    <div layout="setting">
-      <InputMethod v-if="showInput"></InputMethod>
-      <SysSettingDialog v-if="showSysSettingDialog"></SysSettingDialog>
-    </div>
+    <keep-alive v-for="(comp,index) in _components">
+      <component :is="comp.component" :options="comp.options" :index="index" :userObject="comp.userObject"></component>
+    </keep-alive>
   </div>
 </template>
 <script>
   import TaskBar from './TaskBar.vue';
   import RootPanel from './RootPanel.vue';
-  import Notes from './Notes.vue'
   import {mapGetters} from 'vuex';
-  import Browser from './Browser.vue';
-  import AppDialog from './AppDialog.vue';
-  import InputMethod from '../setting/InputMethod.vue';
-  import SysSettingDialog from '../setting/SysSettingDialog.vue';
+
   export default{
     data: function () {
       return {}
     },
     computed: {
       ...mapGetters({
-        tasks: 'taskbar/_tasks',
-        notes: 'note/_notes',
-        showInput: 'desktop/inputMethod',
-        showSysSettingDialog: 'desktop/getShowSysSettingDialog'
+        _components: 'desktop/_components'
       })
     },
     components: {
-      TaskBar, RootPanel, Notes, Browser, AppDialog, InputMethod, SysSettingDialog
+      TaskBar, RootPanel
     },
     mounted: function () {
       this.$store.dispatch("desktop/init");

@@ -2,10 +2,13 @@
  * Created by tangzhichao on 2017/2/27.
  */
 import {Message} from 'element-ui';
+import JSComponent from '../bean/JSComponent';
+
+import ClockTool from '../../components/tools/ClockTool.vue';
 export default {
   state: {
     el: null,
-    alert: false,
+    components: [],
     contentMenuData: [
       [{
         text: "显示桌面",
@@ -60,15 +63,11 @@ export default {
         }
       }]
     ],
-    inputMethod: false,
-    showSysSettingDialog: false
+
   },
   getters: {
-    ['desktop/inputMethod'](state){
-      return state.inputMethod;
-    },
-    ['desktop/getShowSysSettingDialog'](state){
-      return state.showSysSettingDialog;
+    ['desktop/_components'](state){
+      return state.components;
     }
   },
   mutations: {
@@ -125,12 +124,12 @@ export default {
     ['desktop/mainMenu'](state)    {
       $('#contentPane').smartMenu(state.contentMenuData, {name: "image"});
     },
-    ['desktop/showInput'](state){
-      state.inputMethod = !state.inputMethod;
+    ['desktop/addComponent'](state, payload){
+      state.components.push(new JSComponent(payload.component, payload.options, payload.userObject))
     },
-    ['desktop/showSysSettingDialog'](state, paylod){
-      state.showSysSettingDialog = paylod
-    }
+    ['desktop/removeComponent'](state, payload){
+      state.components.splice(payload, 1);
+    },
   },
   actions: {
     ['desktop/init']({commit}){
@@ -142,8 +141,16 @@ export default {
       commit('desktop/mainMenu');
       commit('taskbar/taskMenu');
     },
-    ['desktop/initChildren']({commit}){
-      commit('note/initComponent')
+    ['desktop/removeComponent']({commit}, payload){
+      commit('desktop/removeComponent', payload.index)
+    },
+    ['desktop/initChildren']({commit, dispatch}){
+      dispatch('note/initComponent')
+      commit('desktop/addComponent', {
+        component: ClockTool,
+        options: {},
+        userObjec: {}
+      });
     }
   }
 };

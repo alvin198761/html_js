@@ -1,5 +1,5 @@
 <template>
-  <Explorer :id="task.id" :title="task.title" :resize="false" :min="true" :max="false" :revert="false"
+  <Explorer :id="_dialogId" :title="userObject.title" :resize="false" :min="true" :max="false" :revert="false"
             :handleClose="handleClose">
     <div slot="content">
       <div v-loading="loading" element-loading-text="正在加载...">
@@ -22,11 +22,16 @@
   import AppButton from './AppButton.vue';
 
   export default {
-    props: ['task'],
+    props: ['userObject', 'options', 'index'],
     data: function () {
       return {
         apps: [],
         loading: false
+      }
+    },
+    computed: {
+      _dialogId: function () {
+        return 'dialog_' + this.userObject.id + '_box';
       }
     },
     created: function () {
@@ -36,7 +41,7 @@
       loadSubApps(){
         let _this = this;
         _this.loading = true;
-        _this.$http.get('/api/content/apps/' + this.task.id).then(function (res) {
+        _this.$http.get('/api/content/apps/' + this.userObject.id).then(function (res) {
           for (let i in res.data) {
             res.data[i].icon = require('../../assets/icon/' + res.data[i].icon)
           }
@@ -49,10 +54,11 @@
       },
       handleClose: function (e) {
         const _this = this;
-        this.$store.dispatch('browser/remove', {
-          task: _this.task,
-          id: _this.browserId
+        this.$store.dispatch('desktop/removeComponent', {
+          task: _this.userObject,
+          index: _this.index
         })
+        this.$store.commit('taskbar/removeTask', this.userObject)
       }
     },
     components: {

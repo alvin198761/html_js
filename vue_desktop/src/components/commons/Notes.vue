@@ -1,27 +1,32 @@
 <template>
-  <div class="notes" :id="'note_'+note.id">
-    <div class="infotitl">{{note.title}}</div>
+  <div class="notes" :id="'note_'+userObject.id">
+    <div class="infotitl">{{userObject.title}}</div>
   </div>
 </template>
 <script>
   import {mapGetters} from 'vuex';
   export default{
-    props: ['note'],
+    props: ['userObject', 'options', 'index'],
     data: function () {
       return {}
     },
     computed: {
-      ...mapGetters({})
+      ...mapGetters({}),
+      _nodeId: function () {
+        return 'note_' + this.userObject.id;
+      }
     },
     mounted: function () {
       let _this = this;
-      $("#note_" + this.note.id).draggable({containment: "#desktop"});
-
-      $("#note_" + this.note.id).click(function () {
+      $("#" + this._nodeId).draggable({containment: "#desktop"});
+      $("#" + this._nodeId).click(function () {
         var zIndex = _this.$store.state.notes.zIndex;
-        $("#note_" + _this.note.id).css({"z-index": zIndex + 1});
+        $("#" + this._nodeId).css({"z-index": zIndex + 1});
         _this.$store.commit('note/zIndex');
       });
+    },
+    beforeDestroy: function () {
+      let obj = $("#" + this._nodeId).remove()
     }
   }
 </script>

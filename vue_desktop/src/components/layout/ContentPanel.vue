@@ -4,7 +4,7 @@
       <el-carousel-item v-for="card in menus">
         <div class="app-grid">
           <ul>
-            <AppButton v-for="app in card.apps" :app="app"></AppButton>
+            <AppButton v-for="app in card.apps" :app="app" :openApp="openApp"></AppButton>
           </ul>
         </div>
       </el-carousel-item>
@@ -13,7 +13,8 @@
 </template>
 <script>
   import {mapGetters} from 'vuex';
-  import AppButton from './AppButton.vue';
+  import AppButton from '../commons/AppButton.vue';
+  import {APP_TYPE} from '../../constant';
   export default{
     data: function () {
       return {}
@@ -26,7 +27,15 @@
     components: {
       AppButton
     },
-    methods: {},
+    methods: {
+      openApp: function (app) {
+        if (app.type === APP_TYPE.APP) {
+          this.$store.dispatch('taskbar/addAppDialog', app);
+        } else {
+          this.$store.dispatch('taskbar/addBrowser', app);
+        }
+      }
+    },
     mounted: function () {
       this.$store.commit('content/initComponent', this.$refs.cardPane)
     },

@@ -1,6 +1,8 @@
 /**
  * Created by tangzhichao on 2017/2/27.
  */
+import AppDialog from '../../components/commons/AppDialog.vue';
+import Browser from '../../components/commons/Browser.vue';
 export default {
   state: {
     el: null,
@@ -8,7 +10,7 @@ export default {
       {
         text: "关闭窗口",
         func: function () {
-         // console.log($(this))
+          // console.log($(this))
         }
       },
       {
@@ -24,6 +26,7 @@ export default {
   },
   getters: {
     ['taskbar/_tasks'](state){
+      console.log(state.tasks)
       return state.tasks;
     }
   },
@@ -41,20 +44,48 @@ export default {
       state.tasks.splice(index, 1);
     },
     ['taskbar/addTask'](state, payload){
-      state.tasks.push(payload)
+      state.tasks.push({
+        el_id: payload.id,
+        task: payload.task
+      })
     }
   },
   actions: {
-    ['taskbar/addTask']({rootState, commit, dispatch}, payload){
+    ['taskbar/addAppDialog']({rootState, commit, dispatch}, payload){
+      let id = 'dialog_' + payload.id + '_box';
       if (rootState.taskbar.tasks.indexOf(payload) === -1) {
-        commit('taskbar/addTask', payload)
-      } else {
-        dispatch('taskbar/activeTask', payload)
+        commit('desktop/addComponent', {
+          component: AppDialog,
+          options: {},
+          userObject: payload
+        })
+        commit('taskbar/addTask', {
+          id: id,
+          task: payload
+        })
+        return;
       }
+      dispatch('taskbar/activeTask', id)
+    },
+    ['taskbar/addBrowser']({rootState, commit, dispatch}, payload){
+      let id = 'browser_' + payload.id + '_box'
+      if (rootState.taskbar.tasks.indexOf(payload) === -1) {
+        commit('desktop/addComponent', {
+          component: Browser,
+          options: {},
+          userObject: payload
+        })
+        commit('taskbar/addTask', {
+          id: id,
+          task: payload
+        })
+        return;
+      }
+      dispatch('taskbar/activeTask', id)
     },
     ['taskbar/activeTask']({commit}, payload){
-      commit('browser/showBrowser', {id: '#window_' + payload.id + '_warp'});
-      commit('browser/clickActiveChange', {id: '#window_' + payload.id + '_warp'})
+      commit('browser/showBrowser', {id: '#' + payload});
+      commit('browser/clickActiveChange', {id: '#' + payload})
     }
   }
 };

@@ -5,7 +5,7 @@ import Vue from 'vue'
 import 'string.prototype.startswith'
 import promise from 'es6-promise'
 
-import App from './App'
+import {ALL_COMPONENTS} from './comp_constant';
 import store from './store/index'
 import installFilter from './filters/vue-filters';
 import installPlugin from './plugins/vue-plugins';
@@ -23,6 +23,9 @@ import '../node_modules/jquery-ui/ui/widgets/draggable';
 import 'assets/css/jquery-ui-1.8.24.custom.css';
 import './assets/js/jq-ie-plugin';
 import './assets/js/jq-resize-plugin';
+
+import '../node_modules/flipclock/compiled/flipclock.min';
+import '../node_modules/flipclock/compiled/flipclock.css';
 
 promise.polyfill();
 
@@ -43,5 +46,5 @@ new Vue({
   store: store,
   el: '#app',
   template: '<App/>',
-  components: {App}
+  components: ALL_COMPONENTS
 });

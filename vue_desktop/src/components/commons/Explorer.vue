@@ -1,6 +1,6 @@
 <template>
   <div style="width: 740px; height: 500px; top: 100px; left: 288px; z-index: 3;" class="window-container window-current"
-       :id="'window_'+ id+'_warp'">
+       :id="id">
     <div style="height: 100%;">
       <div @dblclick="haDblClick" class="title-bar" @mousedown="haMouseDown">{{title}}
         <div class="title-handle">
@@ -44,6 +44,7 @@
   </div>
 </template>
 <script>
+  import {Notification} from 'element-ui';
   import {APP_TYPE} from '../../constant';
   export default{
     props: {
@@ -76,7 +77,6 @@
     },
     data: function () {
       return {
-        browserId: '#window_' + this.id + '_warp',
         box: {
           width: 0,
           height: 0,
@@ -94,8 +94,8 @@
     },
     computed: {},
     mounted: function () {
-      this.$store.commit('browser/initComponent', this.browserId);
-      let obj = $(this.browserId);
+      this.$store.commit('browser/initComponent', "#" + this.id);
+      let obj = $("#" + this.id);
       obj.find('.window-container').removeClass('window-current');
       obj.addClass('window-current').css({
         'z-index': this.$store.state.browser.zIndex
@@ -105,22 +105,22 @@
       obj.resizeable()
     },
     beforeDestroy: function () {
-      $(this.browserId).remove()
+      $("#" + this.id).remove()
     },
     methods: {
       //最小化
       haMin: function (e) {
         e.stopPropagation();
-        let obj = $(this.browserId)
+        let obj = $('#' + this.id);
         obj.hide();
         //改变任务栏样式
         $('.task-window li[window="' + obj.attr('window') + '"] b').removeClass('focus');
-        this.$store.commit('browser/minActiveChange', {id: this.browserId});
+        this.$store.commit('browser/minActiveChange', {id: '#' + this.id});
       },
       // 最大化
       haMax: function (e) {
         e.stopPropagation();
-        let obj = $(this.browserId)
+        let obj = $('#' + this.id);
         this.box = {
           width: obj[0].offsetWidth,
           height: obj[0].offsetHeight,
@@ -141,7 +141,7 @@
       // 还原
       haRevert: function (e) {
         e.stopPropagation();
-        let obj = $(this.browserId)
+        let obj = $('#' + this.id)
         obj.css({
           width: this.box.width + "px",
           height: this.box.height + "px",
@@ -157,7 +157,7 @@
         }
         e.stopPropagation();
         //判断当前窗口是否已经是最大化
-        let obj = $(this.browserId)
+        let obj = $("#" + this.id)
         if (obj.find(".ha-max").is(":visible")) {
           this.haMax(e)
         } else {
@@ -166,7 +166,7 @@
         this.haMouseDown(e)
       },
       haMouseDown: function (e) {
-        this.$store.commit('browser/clickActiveChange', {id: this.browserId})
+        this.$store.commit('browser/clickActiveChange', {id: '#' + this.id})
       }
     },
     components: {}

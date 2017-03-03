@@ -3,7 +3,7 @@
     <div id="dockContainer" class="dock_container  dock_pos_left" style="z-index: 10;">
       <div class="dock_middle ui-sortable">
         <div v-for="app in apps" @click="openBrowser(app)" type="2" class="appButton" :id="'sidebar_app'+app.id"
-             :appid="app.id" fileid="1" :title="app.title" url="http://www.baidu.com/" sonmenu="[]"
+             :appid="app.id" fileid="1" :title="app.title" sonmenu="[]"
              :uid="'app_' + app.id">
           <div id="'sidebar_app'+app.id+'_icon_div'" class="appButton_appIcon">
             <img :alt="app.title" :src="app.icon" class="appButton_appIconImg" id="'sidebar_app'+app.id+'_img'"></div>
@@ -14,7 +14,7 @@
         </div>
         <div class="dock_tool_list" id="dockToolList">
           <div class="dock_tool_item">
-            <a @click="showInput" title="输入法" cmd="Pinyin" class="dock_tool_icon dock_tool_pinyin"
+            <a title="输入法" cmd="Pinyin" class="dock_tool_icon dock_tool_pinyin"
                href="javascript:void(0)"></a>
             <a title="静音" cmd="Sound" class="dock_tool_icon dock_tool_sound"
                href="javascript:void(0)"></a>
@@ -32,7 +32,7 @@
 </template>
 <script>
   import {mapGetters, mapMutations} from 'vuex';
-
+  import SysSettingDialog from '../setting/SysSettingDialog';
   export default{
     data: function () {
       return {}
@@ -50,14 +50,17 @@
       this.$store.commit('sidebar/initComponent')
     },
     methods: {
-      ...mapMutations({
-        showInput: 'desktop/showInput',
-      }),
+      ...mapMutations({}),
       openBrowser: function (app) {
-        this.$store.dispatch('taskbar/addTask', app)
+        // this.$store.dispatch('taskbar/addTask', app)
+        console.log('open task')
       },
       openSystemSettingDialog: function (e) {
-        this.$store.commit('desktop/showSysSettingDialog', true)
+        this.$store.commit('desktop/addComponent', {
+          component: SysSettingDialog,
+          options: {},
+          userObject: {}
+        })
       }
     }
   }
