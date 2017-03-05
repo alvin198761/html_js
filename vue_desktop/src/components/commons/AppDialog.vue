@@ -8,7 +8,7 @@
         </template>
         <div class="app-grid" style="position: inherit; padding-top: 15px; padding-left: 15px" v-else>
           <ul>
-            <AppButton v-for="app in apps" :app="app" style="float: left; margin-right: 50px"></AppButton>
+            <AppButton v-for="app in apps" :app="app" :openApp="openApp" style="float: left; margin-right: 50px"></AppButton>
           </ul>
         </div>
       </div>
@@ -59,6 +59,9 @@
           index: _this.index
         })
         this.$store.commit('taskbar/removeTask', this.userObject)
+      },
+      openApp:function () {
+        console.log('open sub app')
       }
     },
     components: {
