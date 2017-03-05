@@ -5,7 +5,15 @@ let Mock = require('mockjs');
 let moment = require('moment')
 
 module.exports = {
-  "GET /api/sidebar/apps": function (req, res) {
+  "GET /api/setting/rdps": function (req, res) {
+
+    let data = [{
+      domain: '',
+      ip: '192.168.192.129',
+      port: 3389,
+      user: 'administrator',
+      password: '1'
+    }]
 
     setTimeout(function () {
       res.json(data)

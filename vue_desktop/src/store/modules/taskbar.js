@@ -3,6 +3,7 @@
  */
 import AppDialog from '../../components/commons/AppDialog.vue';
 import Browser from '../../components/commons/Browser.vue';
+import RdpDialog from '../../components/setting/RdpDialog.vue';
 export default {
   state: {
     el: null,
@@ -10,7 +11,6 @@ export default {
       {
         text: "关闭窗口",
         func: function () {
-          // console.log($(this))
         }
       },
       {
@@ -26,7 +26,6 @@ export default {
   },
   getters: {
     ['taskbar/_tasks'](state){
-      console.log(state.tasks)
       return state.tasks;
     }
   },
@@ -86,6 +85,17 @@ export default {
     ['taskbar/activeTask']({commit}, payload){
       commit('browser/showBrowser', {id: '#' + payload});
       commit('browser/clickActiveChange', {id: '#' + payload})
+    },
+    ['taskbar/open_rdp']({rootState, commit, dispatch}, payload){
+      if (rootState.taskbar.tasks.indexOf(payload.url) === -1) {
+        commit('desktop/addComponent', {
+          component: RdpDialog,
+          options: {},
+          userObject: payload
+        })
+        return;
+      }
+      dispatch('taskbar/activeTask', payload.url)
     }
   }
 };

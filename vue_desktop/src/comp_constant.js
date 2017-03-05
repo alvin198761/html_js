@@ -9,12 +9,14 @@ import Notes from './components/commons/Notes.vue'
 import AppDialog from './components/commons/AppDialog.vue';
 import SysSettingDialog from './components/setting/SysSettingDialog.vue';
 import InputMethod from './components/setting/InputMethod.vue';
+import RdpDialog from './components/setting/RdpDialog.vue';
 
 export const ALL_COMPONENTS = {
-  'App': App,
-  'Note': Notes,
-  'Browser': Browser,
-  'AppDialog': AppDialog,
-  'InputMethod': InputMethod,
-  'SysSettingDialog': SysSettingDialog
+  App,
+  Notes,
+  Browser,
+  AppDialog,
+  InputMethod,
+  SysSettingDialog,
+  RdpDialog
 }

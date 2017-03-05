@@ -24,9 +24,6 @@ import 'assets/css/jquery-ui-1.8.24.custom.css';
 import './assets/js/jq-ie-plugin';
 import './assets/js/jq-resize-plugin';
 
-import '../node_modules/flipclock/compiled/flipclock.min';
-import '../node_modules/flipclock/compiled/flipclock.css';
-
 promise.polyfill();
 
 // install vue plugin

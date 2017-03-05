@@ -37,7 +37,7 @@
     height: 164px;;
     position: absolute;
     z-index: 81;
-    top: 20px;
+    top: 200px;
     right: 50px;
     background-image: url(../../assets/images/memo_background.png);
   }

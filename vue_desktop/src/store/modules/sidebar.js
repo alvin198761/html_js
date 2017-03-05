@@ -10,6 +10,9 @@ export default {
   getters: {
     ['sidebar/_apps'](state){
       return state.apps;
+    },
+    ['sidebar/rdps'](state){
+      return state.rdps;
     }
   },
   mutations: {

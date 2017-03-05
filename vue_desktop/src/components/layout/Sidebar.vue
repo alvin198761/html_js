@@ -52,8 +52,8 @@
     methods: {
       ...mapMutations({}),
       openBrowser: function (app) {
-        // this.$store.dispatch('taskbar/addTask', app)
-        console.log('open task')
+         this.$store.dispatch('taskbar/open_'+app.url, app)
+        console.log(app)
       },
       openSystemSettingDialog: function (e) {
         this.$store.commit('desktop/addComponent', {
