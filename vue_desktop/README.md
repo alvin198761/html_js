@@ -1,4 +1,8 @@
+move to : https://github.com/alvin198761/devops_v1/tree/master/source/opsdev-desktop/src/main/webapp
+安装：
 npm install
+
+运行
 npm run start
 
 因为没有一个vue的web desktop ,自己花了一天多的时间，通过从网上找例子，和自己写代码，实现了一个简单的web desktop,
